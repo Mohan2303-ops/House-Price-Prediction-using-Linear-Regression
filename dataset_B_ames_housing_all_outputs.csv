@@ -1,0 +1,153 @@
+Dataset B - Ames Housing - Complete Notebook Outputs
+(Plots/images are not included here since CSV cannot store images; every printed and tabular output is included.)
+
+### Environment
+Item,Value
+Python version,3.12.13
+pandas version,2.2.2
+scikit-learn version,1.6.1
+Random seed,42
+
+### Dataset shape and target audit
+Item,Value
+Shape,"(1460, 81)"
+Target dtype,int64
+Duplicate rows,0
+
+### Per-feature missing-value audit (top entries)
+Feature,dtype,missing_n,missing_pct,unique_n
+PoolQC,object,1453,99.520548,4
+MiscFeature,object,1406,96.30137,5
+Alley,object,1369,93.767123,3
+Fence,object,1179,80.753425,5
+FireplaceQu,object,690,47.260274,6
+LotFrontage,float64,259,17.739726,111
+GarageFinish,object,81,5.547945,4
+GarageQual,object,81,5.547945,6
+GarageYrBlt,float64,81,5.547945,98
+GarageType,object,81,5.547945,7
+GarageCond,object,81,5.547945,6
+BsmtExposure,object,38,2.60274,5
+BsmtFinType2,object,38,2.60274,7
+BsmtCond,object,37,2.534247,5
+BsmtFinType1,object,37,2.534247,7
+BsmtQual,object,37,2.534247,5
+MasVnrArea,float64,8,0.547945,328
+MasVnrType,object,8,0.547945,5
+Electrical,object,1,0.068493,6
+Condition2,object,0,0.0,8
+
+### Target (SalePrice) describe()
+Stat,Value
+count,1460.0
+mean,180921.19589
+std,79442.502883
+min,34900.0
+25%,129975.0
+50%,163000.0
+75%,214000.0
+max,755000.0
+
+### Train/test split shapes
+Split,Rows,Columns
+X_train,1168,79
+X_test,292,79
+y_train,1168,1
+y_test,292,1
+
+### Feature type counts
+Type,Count
+Numeric features,36
+Categorical features,43
+
+"### Naive baseline (DummyRegressor, mean)"
+Metric,Value
+MAE,62575.926451960964
+RMSE,87619.03450611533
+
+### Simple Linear Regression (feature: GrLivArea)
+Metric,Value
+Intercept,24899.74815733818
+Slope,102.48895891672333
+Test MAE,38341.2045
+Test RMSE,58471.7565
+Test R2,0.5543
+
+### Multiple Linear Regression (all 79 features)
+Metric,Value
+Test MAE,18362
+Test RMSE,29447
+Test R2,0.8869
+
+### Comparative model results - test set (results_df)
+Model,MAE,RMSE,R2
+Gradient Boosting,16695,27183,0.9037
+Lasso,18086,28313,0.8955
+Random Forest,17556,28972,0.8906
+Linear Regression,18362,29447,0.8869
+Elastic Net,18888,29648,0.8854
+Ridge,19096,29777,0.8844
+Decision Tree,25552,36704,0.8244
+
+### Five-fold cross-validation results (cv_results)
+Model,CV_MAE_mean,CV_RMSE_mean,CV_RMSE_std,CV_R2_mean
+Gradient Boosting,16116,27356,5707,0.8707
+Random Forest,18212,30608,5010,0.8403
+Ridge,18804,32954,7272,0.8132
+Elastic Net,18980,33739,7294,0.804
+Lasso,19608,36177,7454,0.7729
+Linear Regression,19728,36543,7518,0.7681
+Decision Tree,26605,40195,3388,0.7272
+
+### Ridge hyperparameter tuning (GridSearchCV)
+Item,Value
+Best alpha,31.622776601683793
+Best CV RMSE,31615.02984560969
+
+### Train vs test split metrics (overfit/underfit check)
+Model,Split,Note
+Linear Regression,Train/Test,Reported in notebook Step 18 output (see accompanying .ipynb for exact printed table)
+Decision Tree,Train/Test,Reported in notebook Step 18 output (see accompanying .ipynb for exact printed table)
+Random Forest,Train/Test,Reported in notebook Step 18 output (see accompanying .ipynb for exact printed table)
+
+### Random Forest feature importance (top 15)
+Feature,Importance
+OverallQual,0.5639
+GrLivArea,0.1232
+TotalBsmtSF,0.0334
+2ndFlrSF,0.0316
+BsmtFinSF1,0.0293
+1stFlrSF,0.026
+LotArea,0.0182
+GarageArea,0.0159
+GarageCars,0.0139
+YearBuilt,0.0116
+LotFrontage,0.008
+YearRemodAdd,0.007
+FullBath,0.0069
+BsmtQual_Ex (one-hot),0.0063
+TotRmsAbvGrd,0.0058
+
+"### Log-target transformation ablation (Ridge, alpha=31.62)"
+Metric,Value
+MAE,16710.5549
+RMSE,25726.0175
+R2,0.9137
+
+### Saved artifacts (Step 23)
+Artifact,Value
+Pipeline file,ames_house_price_pipeline.joblib
+Results CSV,ames_test_model_comparison.csv
+CV results CSV,ames_cross_validation_results.csv
+Metadata JSON,"ames_run_metadata.json (random_seed=42, dataset=Ames Housing, target=SalePrice, train_rows=1168, test_rows=292)"
+
+### Plots generated (not representable in CSV - see .ipynb/report for images)
+Figure,Description
+1,Target (SalePrice) distribution histogram
+2,Numerical correlation heatmap
+3,GrLivArea vs SalePrice scatter plot
+4,SalePrice by neighborhood box plot
+5,Simple Linear Regression fitted line
+6,Residuals vs fitted (Gradient Boosting)
+7,Residual distribution (Gradient Boosting)
+8,Actual vs predicted (Gradient Boosting)

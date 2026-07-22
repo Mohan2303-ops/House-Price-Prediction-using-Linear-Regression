@@ -1,0 +1,123 @@
+Dataset A - California Housing - Complete Notebook Outputs
+(Plots/images are not included here since CSV cannot store images; every printed and tabular output is included.)
+
+### Environment
+Item,Value
+Python version,3.12.13
+pandas version,2.2.2
+scikit-learn version,1.6.1
+Random seed,42
+
+### Dataset shape and target audit
+Item,Value
+Shape,"(20640, 9)"
+Target dtype,float64
+Duplicate rows,0
+
+### Per-feature audit
+Feature,dtype,missing_n,missing_pct,unique_n
+MedInc,float64,0,0.0,12928
+HouseAge,float64,0,0.0,52
+AveRooms,float64,0,0.0,19392
+AveBedrms,float64,0,0.0,14233
+Population,float64,0,0.0,3888
+AveOccup,float64,0,0.0,18841
+Latitude,float64,0,0.0,862
+Longitude,float64,0,0.0,844
+Price,float64,0,0.0,3842
+
+### Target (Price) describe()
+Stat,Value
+count,20640.0
+mean,2.068558
+std,1.153956
+min,0.14999
+25%,1.196
+50%,1.797
+75%,2.64725
+max,5.00001
+
+### Train/test split shapes
+Split,Rows,Columns
+X_train,16512,8
+X_test,4128,8
+y_train,16512,1
+y_test,4128,1
+
+"### Naive baseline (DummyRegressor, mean)"
+Metric,Value
+MAE,0.9060685490007149
+RMSE,1.1448563543099792
+
+### Simple Linear Regression (feature: MedInc)
+Metric,Value
+Intercept,0.4445972916907879
+Slope,0.4193384939381271
+Test MAE,0.6299
+Test RMSE,0.8421
+Test R2,0.4589
+
+### Multiple Linear Regression (all 8 features)
+Metric,Value
+Test MAE,0.5332
+Test RMSE,0.7456
+Test R2,0.5758
+
+### Comparative model results - test set (results_df)
+Model,MAE,RMSE,R2,Adjusted_R2
+Random Forest,0.3262,0.5038,0.8063,0.8059
+Gradient Boosting,0.3717,0.5422,0.7756,0.7752
+Decision Tree,0.5008,0.7052,0.6205,0.6198
+Lasso,0.5331,0.7446,0.5769,0.576
+Elastic Net,0.5331,0.7449,0.5765,0.5757
+Ridge,0.5332,0.7456,0.5758,0.575
+Linear Regression,0.5332,0.7456,0.5758,0.575
+
+### Five-fold cross-validation results (cv_results)
+Model,CV_MAE_mean,CV_RMSE_mean,CV_RMSE_std,CV_R2_mean
+Random Forest,0.3331,0.5096,0.0115,0.8056
+Gradient Boosting,0.3698,0.5321,0.0116,0.7881
+Decision Tree,0.4978,0.6928,0.0132,0.6409
+Lasso,0.5291,0.7205,0.0139,0.6115
+Elastic Net,0.5291,0.7205,0.0139,0.6115
+Ridge,0.5291,0.7205,0.0139,0.6115
+Linear Regression,0.5291,0.7205,0.0139,0.6115
+
+### Ridge hyperparameter tuning (GridSearchCV)
+Item,Value
+Best alpha,3.1622776601683795
+Best CV RMSE,0.7205088107791665
+
+### Train vs test split metrics (overfit/underfit check)
+Model,Split,Note
+Linear Regression,Train/Test,Reported in notebook Step 14 output (see accompanying .ipynb for exact printed table)
+Decision Tree,Train/Test,Reported in notebook Step 14 output (see accompanying .ipynb for exact printed table)
+Random Forest,Train/Test,Reported in notebook Step 14 output (see accompanying .ipynb for exact printed table)
+
+### Linear Regression standardized coefficients
+Feature,Coefficient
+Latitude,-0.8969
+Longitude,-0.8698
+MedInc,0.8544
+AveBedrms,0.3393
+AveRooms,-0.2944
+HouseAge,0.1225
+AveOccup,-0.0408
+Population,-0.0023
+
+### Saved artifacts (Step 21)
+Artifact,Value
+Pipeline file,house_price_pipeline.joblib
+Results CSV,test_model_comparison.csv
+CV results CSV,cross_validation_results.csv
+Metadata JSON,"run_metadata.json (random_seed=42, target=Price, train_rows=16512, test_rows=4128, selected_model=Tuned Ridge Regression)"
+
+### Plots generated (not representable in CSV - see .ipynb/report for images)
+Figure,Description
+1,Target (Price) distribution histogram
+2,Numerical correlation heatmap
+3,MedInc and AveRooms vs Price scatter plots
+4,Simple Linear Regression fitted line
+5,Residuals vs fitted (Random Forest)
+6,Residual distribution (Random Forest)
+7,Actual vs predicted (Random Forest)
